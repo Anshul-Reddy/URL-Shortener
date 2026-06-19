@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container history-scroll">
+        <h1>URL Shortener</h1>
+
+        <form method="POST">
+            <input type="text" name="long_url" placeholder="Enter your Long URL" required>
+            <br><br>
+            <button type="submit">Shorten URL</button>
+        </form>
+        {% if short_url%}
+        <h3>Generated Short URL</h3>
+        <a href="{{ short_url }}" target="_blank">
+            {{ short_url }}
+        </a>
+        <br><br>
+        <button onclick="copyURL()">
+            Copy URL
+        </button>
+        {% endif %}
+        <hr>
+        <h2>URL History</h2>
+        {% for url in urls%}
+        <p>
+            <b>Short URL:</b>
+            <a href="http://127.0.0.1:5000/{{url[0]}}" target="_blank">
+                http://127.0.0.1:5000/{{url[0]}}
+            </a>
+            <br>
+            <b>Original URL:</b>
+            {{url[1]}}
+        </p>
+        <hr>
+        {% endfor %}
+    </div>
+
+    <script>
+        function copyURL() {
+            let url = "{{short_url}}";
+            navigator.clipboard.writeText(url);
+            alert("URL copied!");
+        }
+    </script>
+</body>
+
+</html>
